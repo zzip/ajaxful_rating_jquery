@@ -10,6 +10,40 @@ module AjaxfulRating # :nodoc:
         content_tag(:style, @axr_css.to_css, :type => "text/css")
     end
     
+    def ajaxful_rating_script
+      if protect_against_forgery?
+        authenticity_script = %{
+          var AUTH_TOKEN = #{form_authenticity_token.inspect};
+
+          // Always send the authenticity_token with ajax
+          $(document).ajaxSend(function(event, request, settings) {
+            if ( settings.type == 'post' ) {
+              settings.data = (settings.data ? settings.data + "&" : "")
+                + "authenticity_token=" + encodeURIComponent( AUTH_TOKEN );
+            }
+          });
+        }
+      end
+
+      %{<script>
+        #{authenticity_script}
+
+        $(document).ready(function(){
+          $('.ajaxful-rating a').bind('click',function(event){
+            event.preventDefault();
+            $.ajax({
+              type: $(this).customdata("method"),
+              url: $(this).customdata("url"),
+              data: $(this).customdata(),
+              success: function(response){
+                $('#' + response.id + ' .show-value').css('width', response.width + '%');
+              }
+            });
+          });
+        });
+      </script>}
+    end
+    
     # Generates the stars list to submit a rate.
     # 
     # It accepts the next options:
@@ -74,12 +108,11 @@ module AjaxfulRating # :nodoc:
     #       hover: "Rate {{value}} out of {{max}}"    def ratings_for(*args)
     def ratings_for(*args)
       @axr_css ||= CSSBuilder.new
-      options = args.extract_options!.symbolize_keys.slice(:small, :remote_options,
+      options = args.extract_options!.symbolize_keys.slice(:small, :url, :method,
         :wrap, :show_user_rating, :dimension, :force_static, :current_user)
-      remote_options = options.delete(:remote_options) || {}
       rateable = args.shift
       user = args.shift || (respond_to?(:current_user) ? current_user : raise(NoUserSpecified))
-      StarsBuilder.new(rateable, user, self, @axr_css, options, remote_options).render
+      StarsBuilder.new(rateable, user, self, @axr_css, options).render
     end
   end
 end

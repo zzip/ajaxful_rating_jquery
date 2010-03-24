@@ -96,7 +96,9 @@ module AjaxfulRating # :nodoc:
         end
       end
       prefix = "ajaxful_rating"
-      prefix << "_#{options.sort.join('_')}" unless options.empty?
+      options.sort.each do |o|
+        prefix << "_#{o}" unless o.empty?
+      end
       ApplicationController.helpers.dom_id(self, prefix)
     end
 

@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
 end
 </pre>
 
-Finally, as a mere recomendation to make it even easier, modify your routes to
+Finally, as a mere recommendation to make it even easier, modify your routes to
 map a rate action:
 
   @map.resources :cars, :member => {:rate => :post}@
@@ -119,16 +119,18 @@ There's a condition here, if you didn't add the route @rate@ to your resource
 correct action in your controller:
 
 <pre>
-<%= ratings_for @article, :remote_options => {:url => your_rate_path(@article)} %>
+<%= ratings_for @article, :options => {:url => your_rate_path(@article)} %>
 </pre>
 
 *To display the stars properly you need to add a call in the head of your layout, which will generate the
-required CSS style for the list. Also don't forget to include the javascripts.*
+required CSS style for the list. Also don't forget to include jquery and the jquery customdata plugin (plugin will be copied by the generator).*
 
 <pre>
   #within the head tags of your layout...
-  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag "jquery-1.4.2.min" %>
+  <%= javascript_include_tag "jquery.customdata" %>
   <%= ajaxful_rating_style %>
+  <%= ajaxful_rating_script %>
 </pre>
     
 When a user submits a rating it will call the action in your controller, for
@@ -138,10 +140,9 @@ example (if you added the @rate@ route):
   def rate
     @car = Car.find(params[:id])
     @car.rate(params[:stars], current_user, params[:dimension])
-    render :update do |page|
-      page.replace_html @car.wrapper_dom_id(params), ratings_for(@car, params.merge(:wrap => false))
-      page.visual_effect :highlight, @car.wrapper_dom_id(params)
-    end
+    average = @product.rate_average(true, params[:dimension])
+    width = (average / @car.class.max_stars.to_f) * 100
+    render :json => {:id => @car.wrapper_dom_id(params), :average => average, :width => width}
   end
 </pre>
 
@@ -174,7 +175,7 @@ map.namespace :admin do |admin|
 end
 
 views/admin/articles/show.html.erb
-<%= ratings_for @article, :remote_options => {:url => rate_admin_article_path(@article)} %>
+<%= ratings_for @article, :options => {:url => rate_admin_article_path(@article)} %>
 </pre>
 
 h3. Cache

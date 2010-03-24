@@ -2,12 +2,12 @@ module AjaxfulRating # :nodoc:
   class StarsBuilder # :nodoc:
     include AjaxfulRating::Locale
     
-    attr_reader :rateable, :user, :options, :remote_options
+    attr_reader :rateable, :user, :options
     
-    def initialize(rateable, user_or_static, template, css_builder, options = {}, remote_options = {})
+    def initialize(rateable, user_or_static, template, css_builder, options = {})
       @user = user_or_static unless user_or_static == :static
       @rateable, @template, @css_builder = rateable, template, css_builder
-      apply_stars_builder_options!(options, remote_options)
+      apply_stars_builder_options!(options)
     end
     
     def show_value
@@ -25,8 +25,10 @@ module AjaxfulRating # :nodoc:
     
     private
     
-    def apply_stars_builder_options!(options, remote_options)
+    def apply_stars_builder_options!(options)
       @options = {
+        :url => nil,
+        :method => :post,
         :wrap => true,
         :small => false,
         :show_user_rating => false,
@@ -38,16 +40,11 @@ module AjaxfulRating # :nodoc:
       @options[:show_user_rating] = @options[:show_user_rating].to_s == 'true'
       @options[:wrap] = @options[:wrap].to_s == 'true'
       
-      @remote_options = {
-        :url => nil,
-        :method => :post
-      }.merge(remote_options)
-      
-      if @remote_options[:url].nil?
+      if @options[:url].nil?
         rateable_name = ActionController::RecordIdentifier.singular_class_name(rateable)
         url = "rate_#{rateable_name}_path"
         if @template.respond_to?(url)
-          @remote_options[:url] = @template.send(url, rateable)
+          @options[:url] = @template.send(url, rateable)
         else
           raise(MissingRateRoute)
         end
@@ -88,21 +85,17 @@ module AjaxfulRating # :nodoc:
     end
     
     def link_star_tag(value, css_class)
-      query = {
-        :stars => value,
-        :dimension => options[:dimension],
-        :small => options[:small],
-        :show_user_rating => options[:show_user_rating]
-      }.to_query
-      config = {
-        :html => {
-          :class => css_class,
-          :title => i18n(:hover, value)
-        },
-        :url => "#{remote_options[:url]}",
-        :with => "'#{query}'"
+      html = {
+        :"data-url" => options[:url],
+        :"data-method" => options[:method],
+        :"data-stars" => value,
+        :"data-dimension" => options[:dimension],
+        :"data-small" => options[:small],
+        :"data-show_user_rating" => options[:show_user_rating],
+        :class => css_class,
+        :title => i18n(:hover, value)
       }
-      @template.link_to_remote(value, remote_options.merge(config))
+      @template.link_to(value, "#", html)
     end
     
     def wrapper_tag
