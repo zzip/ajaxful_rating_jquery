@@ -30,13 +30,12 @@ module AjaxfulRating # :nodoc:
         :url => nil,
         :method => :post,
         :wrap => true,
-        :small => false,
+        :size => nil,
         :show_user_rating => false,
         :force_static => false,
         :current_user => (@template.current_user if @template.respond_to?(:current_user))
       }.merge(options)
       
-      @options[:small] = @options[:small].to_s == 'true'
       @options[:show_user_rating] = @options[:show_user_rating].to_s == 'true'
       @options[:wrap] = @options[:wrap].to_s == 'true'
       
@@ -56,15 +55,22 @@ module AjaxfulRating # :nodoc:
       width = (show_value / rateable.class.max_stars.to_f) * 100
       li_class = "axr-#{show_value}-#{rateable.class.max_stars}".gsub('.', '_')
       @css_builder.rule('.ajaxful-rating', :width => (rateable.class.max_stars * 25))
+      @css_builder.rule('.ajaxful-rating.medium',
+        :width => (rateable.class.max_stars * 18)) if options[:size] == 'medium'
       @css_builder.rule('.ajaxful-rating.small',
-        :width => (rateable.class.max_stars * 10)) if options[:small]
+        :width => (rateable.class.max_stars * 10)) if options[:size] == 'small'
       
       stars << @template.content_tag(:li, i18n(:current), :class => "show-value",
         :style => "width: #{width}%")
       stars += (1..rateable.class.max_stars).map do |i|
         star_tag(i)
       end
-      @template.content_tag(:ul, stars.join, :class => "ajaxful-rating#{' small' if options[:small]}")
+      if options[:size] == 'small'
+        size = ' small'
+      elsif options[:size] == 'medium'
+        size = ' medium'
+      end
+      @template.content_tag(:ul, stars.join, :class => "ajaxful-rating#{size}")
     end
     
     def star_tag(value)
@@ -90,7 +96,7 @@ module AjaxfulRating # :nodoc:
         :"data-method" => options[:method],
         :"data-stars" => value,
         :"data-dimension" => options[:dimension],
-        :"data-small" => options[:small],
+        :"data-size" => options[:size],
         :"data-show_user_rating" => options[:show_user_rating],
         :class => css_class,
         :title => i18n(:hover, value)

@@ -44,10 +44,32 @@ module AjaxfulRating # :nodoc:
       </script>}
     end
     
+    def ajaxful_rating_script_prototype
+      %{
+        $$('.ajaxful-rating a').observe('click', rateProduct);
+        
+        function rateProduct(event) {
+          var element = event.element();
+
+          new Ajax.Request(element.readAttribute('data-url'), {
+            method: element.readAttribute('data-method'),
+            parameters: {
+              data-stars: element.readAttribute('data-stars'),
+              data-size: element.readAttribute('data-size'),
+              data-show_user_rating: element.readAttribute('data-show_user_rating')
+            },
+            onSuccess: function(transport, json){
+              alert(json ? Object.inspect(json) : "no JSON object");
+            }
+          });
+        }
+      }
+    end
+    
     # Generates the stars list to submit a rate.
     # 
     # It accepts the next options:
-    # * <tt>:small</tt> Set this param to true to display smaller images. Default is false.
+    # * <tt>:size</tt> Set this param to medium or small to display medium/small images. Default is false.
     # * <tt>:remote_options</tt> Hash of options for the link_to_remote function.
     # Default is {:method => :post, :url => rate_rateablemodel_path(rateable)}.
     # * <tt>:wrap</tt> Whether the star list is wrapped within a div tag or not. This is useful when page updating. Default is true.
@@ -70,10 +92,10 @@ module AjaxfulRating # :nodoc:
     # or pass <tt>:static</tt> to leave the list of stars static.
     # 
     # Example:
-    #   <%= ratings_for @article, @user, :small => true %>
+    #   <%= ratings_for @article, @user, :size => 'small' %>
     #   # => Will use @user instead <tt>current_user</tt>
     #   
-    #   <%= ratings_for @article, :static, :small => true %>
+    #   <%= ratings_for @article, :static, :size => 'medium' %>
     #   # => Will produce a static list of stars showing the current rating average for @article.
     #   
     # The user passed here will *not* be the one who submits the rate. It will be used only for the display behavior of the stars.
@@ -108,7 +130,7 @@ module AjaxfulRating # :nodoc:
     #       hover: "Rate {{value}} out of {{max}}"    def ratings_for(*args)
     def ratings_for(*args)
       @axr_css ||= CSSBuilder.new
-      options = args.extract_options!.symbolize_keys.slice(:small, :url, :method,
+      options = args.extract_options!.symbolize_keys.slice(:size, :url, :method,
         :wrap, :show_user_rating, :dimension, :force_static, :current_user)
       rateable = args.shift
       user = args.shift || (respond_to?(:current_user) ? current_user : raise(NoUserSpecified))
