@@ -1,3 +1,21 @@
+== 2.2.8.1 Jul 02, 2010
+* Call html_safe only when it's available.
+
+== 2.2.8 Jun 14, 2010
+* Fix html for <li> marking it as html_safe when using rails_xss plugin
+
+== 2.2.7 Jun 12, 2010
+* Fix generated html marking it as html_safe when using rails_xss plugin
+
+== 2.2.6 May 27, 2010
+* Fix wrapper_dom_id with false values for keys
+
+== 2.2.5 May 21, 2010
+* Fix wrapper_dom_id with empty values
+
+== 2.2.4 April 15, 2010
+* Fix wrapper_dom_id join options
+
 == 2.2.3 March 10, 2010
 * Fix validation of current_user to show linked stars
 

@@ -70,7 +70,8 @@ module AjaxfulRating # :nodoc:
       elsif options[:size] == 'medium'
         size = ' medium'
       end
-      @template.content_tag(:ul, stars.join, :class => "ajaxful-rating#{size}")
+      # When using rails_xss plugin, it needs to render as HTML
+      @template.content_tag(:ul, stars.join.try(:html_safe), :class => "ajaxful-rating#{size}")
     end
     
     def star_tag(value)
