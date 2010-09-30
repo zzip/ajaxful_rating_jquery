@@ -1,1 +1,1 @@
-require 'ajaxful_rating'
+require 'ajaxful_rating_jquery'

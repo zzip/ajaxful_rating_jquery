@@ -6,7 +6,7 @@ Provides a simple way to add rating functionality to your application. This fork
 
 h2. Repository
 
-Find it at "github.com/kamui/ajaxful-rating":http://github.com/kamui/ajaxful-rating
+Find it at "github.com/kamui/ajaxful_rating_jquery":http://github.com/kamui/ajaxful_rating_jquery
 
 The original repository is located at "github.com/edgarjs/ajaxful-rating":http://github.com/edgarjs/ajaxful-rating
 
@@ -215,7 +215,7 @@ If you use a custom cache column name, follow the pattern @cache_column_name_dim
 
 h2. Feedback
 
-If you find bugs please open a ticket at "http://github.com/kamui/ajaxful-rating/issues":http://github.com/kamui/ajaxful-rating/issues
+If you find bugs please open a ticket at "http://github.com/kamui/ajaxful_rating_jquery/issues":http://github.com/kamui/ajaxful_rating_jquery/issues
 
 I'll really appreciate your feedback, please contact me at kamuigt[at]gmail[dot]com
 
