@@ -93,7 +93,6 @@ module AjaxfulRating # :nodoc:
     
     def link_star_tag(value, css_class)
       html = {
-        :"data-url" => options[:url],
         :"data-method" => options[:method],
         :"data-stars" => value,
         :"data-dimension" => options[:dimension],
@@ -102,7 +101,7 @@ module AjaxfulRating # :nodoc:
         :class => css_class,
         :title => i18n(:hover, value)
       }
-      @template.link_to(value, "#", html)
+      @template.link_to(value, options[:url], html)
     end
     
     def wrapper_tag

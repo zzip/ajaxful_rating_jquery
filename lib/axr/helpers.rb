@@ -13,13 +13,14 @@ module AjaxfulRating # :nodoc:
     def ajaxful_rating_script
       if protect_against_forgery?
         authenticity_script = %{
-          var AUTH_TOKEN = #{form_authenticity_token.inspect};
+          csrf_param = "authenticity_token";
+          csrf_token = #{form_authenticity_token.inspect};
 
           // Always send the authenticity_token with ajax
           $(document).ajaxSend(function(event, request, settings) {
             if ( settings.type == 'post' ) {
               settings.data = (settings.data ? settings.data + "&" : "")
-                + "authenticity_token=" + encodeURIComponent( AUTH_TOKEN );
+                + encodeURIComponent( csrf_param ) + "=" + encodeURIComponent( csrf_token );
             }
           });
         }
@@ -32,9 +33,14 @@ module AjaxfulRating # :nodoc:
           $('.ajaxful-rating a').bind('click',function(event){
             event.preventDefault();
             $.ajax({
-              type: $(this).customdata("method"),
-              url: $(this).customdata("url"),
-              data: $(this).customdata(),
+              type: $(this).attr('data-method'),
+              url: $(this).attr('href'),
+              data: {
+                      stars: $(this).attr('data-stars'),
+                      dimension: $(this).attr('data-dimension'),
+                      size: $(this).attr('data-size'),
+                      show_user_rating: $(this).attr('data-show_user_rating')
+                    },
               success: function(response){
                 $('#' + response.id + ' .show-value').css('width', response.width + '%');
               }
@@ -55,6 +61,7 @@ module AjaxfulRating # :nodoc:
             method: element.readAttribute('data-method'),
             parameters: {
               data-stars: element.readAttribute('data-stars'),
+              data-dimension: element.readAttribute('data-dimension'),
               data-size: element.readAttribute('data-size'),
               data-show_user_rating: element.readAttribute('data-show_user_rating')
             },
@@ -70,7 +77,6 @@ module AjaxfulRating # :nodoc:
     # 
     # It accepts the next options:
     # * <tt>:size</tt> Set this param to medium or small to display medium/small images. Default is false.
-    # * <tt>:remote_options</tt> Hash of options for the link_to_remote function.
     # Default is {:method => :post, :url => rate_rateablemodel_path(rateable)}.
     # * <tt>:wrap</tt> Whether the star list is wrapped within a div tag or not. This is useful when page updating. Default is true.
     # * <tt>:show_user_rating</tt> Set to true if you want to display only the current user's rating, instead of the global average.

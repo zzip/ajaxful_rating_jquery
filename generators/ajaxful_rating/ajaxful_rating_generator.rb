@@ -20,7 +20,6 @@ class AjaxfulRatingGenerator < Rails::Generator::NamedBase
       m.file 'images/star_medium.png', 'public/images/ajaxful_rating/star_medium.png'
       m.file 'images/star_small.png', 'public/images/ajaxful_rating/star_small.png'
       m.file 'style.css', 'public/stylesheets/ajaxful_rating.css'
-      m.file 'jquery.customdata.js', 'public/javascript/jquery.customdata.js'
     end
   end
   
