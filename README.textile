@@ -1,4 +1,4 @@
-h1. Ajaxful Rating
+h1. Ajaxful Rating jQuery
 
 Provides a simple way to add rating functionality to your application. This fork uses jQuery instead of prototype and uses unobtrusive javascript. Currently, it only supports Rails 2.3.x.
 
@@ -6,16 +6,16 @@ Provides a simple way to add rating functionality to your application. This fork
 
 h2. Repository
 
-Find it at "github.com/kamui/ajaxful_rating_jquery":http://github.com/kamui/ajaxful_rating_jquery
+Find it at "http://github.com/kamui/ajaxful_rating_jquery":http://github.com/kamui/ajaxful_rating_jquery
 
-The original repository is located at "github.com/edgarjs/ajaxful-rating":http://github.com/edgarjs/ajaxful-rating
+The original repository, which uses Prototype, is located at "http://github.com/edgarjs/ajaxful-rating":http://github.com/edgarjs/ajaxful-rating
 
 h2. Demo
 
-I don't have a working demo up of my form but you can see the original version's demo app at "http://github.com/edgarjs/ajaxful-rating_demo_app":http://github.com/edgarjs/ajaxful-rating_demo_app
+There's a working demo project at "http://github.com/kamui/ajaxful_rating_jquery_demo":http://github.com/kamui/ajaxful_rating_jquery_demo
 Just migrate and run...
 
-Or view it live: "http://axr.heroku.com":http://axr.heroku.com
+Or view it live: "http://axrj.heroku.com":http://axrj.heroku.com
 
 *******************************************************************
 
@@ -53,7 +53,7 @@ So this call will create a Rate model and will link it to your User model.
 h3. Prepare
 
 To let a model be rateable just add @ajaxful_rateable@. You can pass a hash of options to
-customise this call:
+customize this call:
 * @:stars@ Max number of stars that can be submitted.
 * @:allow_update@ Set to true if you want users to be able to update their votes.
 * @:cache_column@ Name of the column for storing the cached rating average.
