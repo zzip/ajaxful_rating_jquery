@@ -2,7 +2,7 @@ class AjaxfulRatingGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('../templates', __FILE__)  
   include Rails::Generators::Migration
   
-  def initialize(runtime_args, runtime_options = {})
+  def initialize(args, *options)
     super
       
     # if there's no user model
@@ -23,4 +23,13 @@ class AjaxfulRatingGenerator < Rails::Generators::NamedBase
     copy_file 'images/star_small.png', 'public/images/ajaxful_rating/star_small.png'
     copy_file 'style.css', 'public/stylesheets/ajaxful_rating.css'
   end
+  
+  private
+    def self.next_migration_number(dirname) #:nodoc:
+      if ActiveRecord::Base.timestamped_migrations
+        Time.now.utc.strftime("%Y%m%d%H%M%S")
+      else
+        "%.3d" % (current_migration_number(dirname) + 1)
+      end
+    end
 end
