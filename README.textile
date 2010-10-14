@@ -1,3 +1,5 @@
+NOTE: Install this as a plugin for now. Rails 3 compatible.
+
 h1. Ajaxful Rating jQuery
 
 Provides a simple way to add rating functionality to your application. This fork uses jQuery instead of prototype and uses unobtrusive javascript. Currently, it only supports Rails 2.3.x.
