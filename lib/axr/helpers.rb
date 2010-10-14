@@ -23,7 +23,7 @@ module AjaxfulRating # :nodoc:
                 + encodeURIComponent( csrf_param ) + "=" + encodeURIComponent( csrf_token );
             }
           });
-        }
+        }.html_safe
       end
 
       %{<script>
@@ -47,7 +47,7 @@ module AjaxfulRating # :nodoc:
             });
           });
         });
-      </script>}
+      </script>}.html_safe
     end
     
     def ajaxful_rating_script_prototype
