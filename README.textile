@@ -1,8 +1,6 @@
-NOTE: Install this as a plugin for now. Rails 3 compatible.
-
 h1. Ajaxful Rating jQuery
 
-Provides a simple way to add rating functionality to your application. This fork uses jQuery instead of prototype and uses unobtrusive javascript. Currently, it only supports Rails 2.3.x.
+Provides a simple way to add rating functionality to your application. This fork uses jQuery instead of prototype and uses unobtrusive javascript. This fork only supports Rails 3.
 
 !http://s3.amazonaws.com/ember/v9SvvO3rdSkA40e1sXBf8JgpuaWCC0uB_o.png!
 
@@ -25,13 +23,9 @@ h2. Instructions
 
 h3. Install
 
-To install the gem run the next command:
+To install the plugin run the next command:
 
-  @gem install ajaxful_rating_jquery@
-  
-You can configure it in your environment.rb file also:
-
-  @config.gem "ajaxful_rating_jquery"@
+  @rails plugin install git://github.com/mrbrdo/ajaxful_rating_jquery.git@
 
 h3. Generate
 
@@ -46,8 +40,8 @@ Example:
 _I suppose you have generated already an authenticated model..._
 
 <pre>
-script/generate authenticated user sessions
-script/generate ajaxful_rating user
+rails g authenticated user sessions
+rails g ajaxful_rating user
 </pre>
 
 So this call will create a Rate model and will link it to your User model.
@@ -128,7 +122,7 @@ correct action in your controller:
 <%= ratings_for @article, :url => your_rate_path(@article) %>
 </pre>
 
-+h3. Important!
+h3. Important!
 
 *To display the stars properly you need to add a call in the head of your layout, which will generate the
 required CSS style for the list. Also don't forget to include jQ--uery.*

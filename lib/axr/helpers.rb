@@ -23,7 +23,7 @@ module AjaxfulRating # :nodoc:
                 + encodeURIComponent( csrf_param ) + "=" + encodeURIComponent( csrf_token );
             }
           });
-        }.html_safe
+                                                                                                                  }.html_safe
       end
 
       %{<script>

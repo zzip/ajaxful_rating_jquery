@@ -33,7 +33,7 @@ module AjaxfulRating # :nodoc:
         :size => nil,
         :show_user_rating => false,
         :force_static => false,
-        :current_user => (@template.current_user if @template.respond_to?(:current_user))
+        :current_user => @user
       }.merge(options)
       
       @options[:show_user_rating] = @options[:show_user_rating].to_s == 'true'
