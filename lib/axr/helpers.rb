@@ -30,8 +30,7 @@ module AjaxfulRating # :nodoc:
         #{authenticity_script}
 
         $(document).ready(function(){
-          $('.ajaxful-rating a').bind('click',function(event){
-            event.preventDefault();
+          $('.ajaxful-rating a').click(function(){
             $.ajax({
               type: $(this).attr('data-method'),
               url: $(this).attr('href'),
@@ -45,6 +44,7 @@ module AjaxfulRating # :nodoc:
                 $('#' + response.id + ' .show-value').css('width', response.width + '%');
               }
             });
+            return false;
           });
         });
       </script>}.html_safe
