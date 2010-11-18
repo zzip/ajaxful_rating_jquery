@@ -6,16 +6,9 @@ Provides a simple way to add rating functionality to your application. This fork
 
 h2. Repository
 
-Find it at "http://github.com/kamui/ajaxful_rating_jquery":http://github.com/kamui/ajaxful_rating_jquery
+Forked from (rails 2.x version) "http://github.com/kamui/ajaxful_rating_jquery":http://github.com/kamui/ajaxful_rating_jquery
 
 The original repository, which uses Prototype, is located at "http://github.com/edgarjs/ajaxful-rating":http://github.com/edgarjs/ajaxful-rating
-
-h2. Demo
-
-There's a working demo project at "http://github.com/kamui/ajaxful_rating_jquery_demo":http://github.com/kamui/ajaxful_rating_jquery_demo
-Just migrate and run...
-
-Or view it live: "http://axrj.heroku.com":http://axrj.heroku.com
 
 *******************************************************************
 
