@@ -66,7 +66,11 @@ end
 Finally, as a mere recommendation to make it even easier, modify your routes to
 map a rate action:
 
-  @map.resources :cars, :member => {:rate => :post}@
+<pre>
+resources :cars do
+  post :rate, :on => :member
+end
+</pre>
 
 h3. Use it
 
@@ -136,7 +140,7 @@ example (if you added the @rate@ route):
   def rate
     @car = Car.find(params[:id])
     @car.rate(params[:stars], current_user, params[:dimension])
-    average = @product.rate_average(true, params[:dimension])
+    average = @car.rate_average(true, params[:dimension])
     width = (average / @car.class.max_stars.to_f) * 100
     render :json => {:id => @car.wrapper_dom_id(params), :average => average, :width => width}
   end
