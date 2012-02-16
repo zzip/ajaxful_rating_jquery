@@ -76,9 +76,9 @@ module AjaxfulRating # :nodoc:
       rate = if self.class.axr_config[:allow_update] && rated_by?(user, dimension)
         rate_by(user, dimension)
       else
-        returning rates(dimension).build do |r|
-          r.rater = user
-        end
+        r = rates(dimension).build 
+        r.rater = user
+        r
       end
       rate.stars = stars
       rate.save!
